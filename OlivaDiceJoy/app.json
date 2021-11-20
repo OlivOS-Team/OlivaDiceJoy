@@ -1,0 +1,14 @@
+{
+    "name" : "OlivaDice娱乐模块",
+    "author" : "lunzhiPenxil",
+    "namespace" : "OlivaDiceJoy",
+    "message_mode" : "old_string",
+    "priority" : 30010,
+    "support" : [
+        {
+            "sdk" : "all",
+            "platform" : "all",
+            "model" : "all"
+        }
+    ]
+}
