@@ -19,6 +19,7 @@ import OlivaDiceJoy
 import OlivaDiceCore
 
 import hashlib
+import time
 
 def unity_init(plugin_event, Proc):
     data_init(plugin_event, Proc)
@@ -139,6 +140,7 @@ def unity_reply(plugin_event, Proc):
             tmp_reast_str = tmp_reast_str.rstrip(' ')
             tmp_reply_str = None
             hash_tmp = hashlib.new('md5')
+            hash_tmp.update(str(time.strftime('%Y-%m-%d', time.localtime())).encode(encoding='UTF-8'))
             hash_tmp.update(str(plugin_event.data.user_id).encode(encoding='UTF-8'))
             tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
             dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
