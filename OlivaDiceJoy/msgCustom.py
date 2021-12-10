@@ -21,7 +21,9 @@ import OlivaDiceJoy
 dictStrCustomDict = {}
 
 dictStrCustom = {
-    'strJoyJrrp': '[{tName}]的今日人品为[{tJrrpResult}]'
+    'strJoyJrrp': '[{tName}]的今日人品为[{tJrrpResult}]',
+    'strJoyZrrp': '[{tName}]的昨日人品为[{tJrrpResult}]',
+    'strJoyMrrp': '[{tName}]的明日人品为[{tJrrpResult}]'
 }
 
 dictStrConst = {

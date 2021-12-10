@@ -104,6 +104,15 @@ def unity_reply(plugin_event, Proc):
                 userConfigKey = 'hostEnable',
                 botHash = plugin_event.bot_info.hash
             )
+        flag_hostLocalEnable = True
+        if flag_is_from_host:
+            flag_hostLocalEnable = OlivaDiceCore.userConfig.getUserConfigByKey(
+                userId = plugin_event.data.host_id,
+                userType = 'host',
+                platform = plugin_event.platform['platform'],
+                userConfigKey = 'hostLocalEnable',
+                botHash = plugin_event.bot_info.hash
+            )
         flag_groupEnable = True
         if flag_is_from_group:
             if flag_is_from_host:
@@ -131,6 +140,9 @@ def unity_reply(plugin_event, Proc):
                     userConfigKey = 'groupEnable',
                     botHash = plugin_event.bot_info.hash
                 )
+        #此频道关闭时中断处理
+        if not flag_hostLocalEnable and not flag_force_reply:
+            return
         #此群关闭时中断处理
         if not flag_groupEnable and not flag_force_reply:
             return
@@ -145,6 +157,34 @@ def unity_reply(plugin_event, Proc):
             tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
             dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
             tmp_reply_str = dictStrCustom['strJoyJrrp'].format(**dictTValue)
+            if tmp_reply_str != None:
+                replyMsg(plugin_event, tmp_reply_str)
+            return
+        elif isMatchWordStart(tmp_reast_str, 'zrrp'):
+            tmp_reast_str = getMatchWordStartRight(tmp_reast_str, 'zrrp')
+            tmp_reast_str = skipSpaceStart(tmp_reast_str)
+            tmp_reast_str = tmp_reast_str.rstrip(' ')
+            tmp_reply_str = None
+            hash_tmp = hashlib.new('md5')
+            hash_tmp.update(str(time.strftime('%Y-%m-%d', time.localtime(int(time.mktime(time.localtime())) - 24 * 60 * 60))).encode(encoding='UTF-8'))
+            hash_tmp.update(str(plugin_event.data.user_id).encode(encoding='UTF-8'))
+            tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
+            dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
+            tmp_reply_str = dictStrCustom['strJoyZrrp'].format(**dictTValue)
+            if tmp_reply_str != None:
+                replyMsg(plugin_event, tmp_reply_str)
+            return
+        elif isMatchWordStart(tmp_reast_str, 'mrrp'):
+            tmp_reast_str = getMatchWordStartRight(tmp_reast_str, 'mrrp')
+            tmp_reast_str = skipSpaceStart(tmp_reast_str)
+            tmp_reast_str = tmp_reast_str.rstrip(' ')
+            tmp_reply_str = None
+            hash_tmp = hashlib.new('md5')
+            hash_tmp.update(str(time.strftime('%Y-%m-%d', time.localtime(int(time.mktime(time.localtime())) + 24 * 60 * 60))).encode(encoding='UTF-8'))
+            hash_tmp.update(str(plugin_event.data.user_id).encode(encoding='UTF-8'))
+            tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
+            dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
+            tmp_reply_str = dictStrCustom['strJoyMrrp'].format(**dictTValue)
             if tmp_reply_str != None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
