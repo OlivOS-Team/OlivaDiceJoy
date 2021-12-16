@@ -6,7 +6,7 @@ _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
 / /_/ /_  /____/ /  __ |/ / _  ___ |  /_/ /__/ /  / /___  _  /___   
 \____/ /_____/___/  _____/  /_/  |_/_____/ /___/  \____/  /_____/   
 
-@File      :   __init__.py
+@File      :   data.py
 @Author    :   lunzhiPenxil仑质
 @Contact   :   lunzhipenxil@gmail.com
 @License   :   AGPL
@@ -14,9 +14,5 @@ _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
 @Desc      :   None
 '''
 
-import OlivaDiceCore
-import OlivaDiceJoy.main
-import OlivaDiceJoy.msgReply
-import OlivaDiceJoy.msgCustom
-import OlivaDiceJoy.msgCustomManager
-import OlivaDiceJoy.data
+
+OlivaDiceJoy_ver = '3.0.0'
