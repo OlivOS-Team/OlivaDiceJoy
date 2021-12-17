@@ -28,7 +28,6 @@ def data_init(plugin_event, Proc):
     OlivaDiceJoy.msgCustomManager.initMsgCustom(Proc.Proc_data['bot_info_dict'])
 
 def unity_reply(plugin_event, Proc):
-    data_init(plugin_event, Proc)
     OlivaDiceCore.userConfig.setMsgCount()
     dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
     dictTValue['tName'] = plugin_event.data.sender['nickname']
@@ -41,6 +40,7 @@ def unity_reply(plugin_event, Proc):
     getMatchWordStartRight = OlivaDiceCore.msgReply.getMatchWordStartRight
     skipSpaceStart = OlivaDiceCore.msgReply.skipSpaceStart
     skipToRight = OlivaDiceCore.msgReply.skipToRight
+    msgIsCommand = OlivaDiceCore.msgReply.msgIsCommand
 
     tmp_at_str = OlivOS.messageAPI.PARA.at(plugin_event.base_info['self_id']).CQ()
     tmp_at_str_sub = None
@@ -74,15 +74,10 @@ def unity_reply(plugin_event, Proc):
             tmp_reast_str = getMatchWordStartRight(tmp_reast_str, tmp_at_str_sub)
             tmp_reast_str = skipSpaceStart(tmp_reast_str)
             flag_force_reply = True
-    if isMatchWordStart(tmp_reast_str, tmp_command_str_1):
-        tmp_reast_str = getMatchWordStartRight(tmp_reast_str, tmp_command_str_1)
-        flag_is_command = True
-    elif isMatchWordStart(tmp_reast_str, tmp_command_str_2):
-        tmp_reast_str = getMatchWordStartRight(tmp_reast_str, tmp_command_str_2)
-        flag_is_command = True
-    elif isMatchWordStart(tmp_reast_str, tmp_command_str_3):
-        tmp_reast_str = getMatchWordStartRight(tmp_reast_str, tmp_command_str_3)
-        flag_is_command = True
+    [tmp_reast_str, flag_is_command] = msgIsCommand(
+        tmp_reast_str,
+        OlivaDiceCore.crossHook.dictHookList['prefix']
+    )
     if flag_is_command:
         if plugin_event.plugin_info['func_type'] == 'group_message':
             if plugin_event.data.host_id != None:
