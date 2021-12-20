@@ -28,6 +28,9 @@ def initMsgCustom(bot_info_dict):
         for dictStrCustom_this in OlivaDiceJoy.msgCustom.dictStrCustom:
             if dictStrCustom_this not in OlivaDiceCore.msgCustom.dictStrCustomDict[bot_info_dict_this]:
                 OlivaDiceCore.msgCustom.dictStrCustomDict[bot_info_dict_this][dictStrCustom_this] = OlivaDiceJoy.msgCustom.dictStrCustom[dictStrCustom_this]
+        for dictHelpDoc_this in OlivaDiceJoy.msgCustom.dictHelpDocTemp:
+            if dictHelpDoc_this not in OlivaDiceCore.helpDocData.dictHelpDoc[bot_info_dict_this]:
+                OlivaDiceCore.helpDocData.dictHelpDoc[bot_info_dict_this][dictHelpDoc_this] = OlivaDiceJoy.msgCustom.dictHelpDocTemp[dictHelpDoc_this]
     OlivaDiceCore.msgCustom.dictStrConst.update(OlivaDiceJoy.msgCustom.dictStrConst)
     OlivaDiceCore.msgCustom.dictGValue.update(OlivaDiceJoy.msgCustom.dictGValue)
     OlivaDiceCore.msgCustom.dictTValue.update(OlivaDiceJoy.msgCustom.dictTValue)

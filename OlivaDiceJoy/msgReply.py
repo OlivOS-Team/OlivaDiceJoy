@@ -22,7 +22,7 @@ import hashlib
 import time
 
 def unity_init(plugin_event, Proc):
-    data_init(plugin_event, Proc)
+    pass
 
 def data_init(plugin_event, Proc):
     OlivaDiceJoy.msgCustomManager.initMsgCustom(Proc.Proc_data['bot_info_dict'])

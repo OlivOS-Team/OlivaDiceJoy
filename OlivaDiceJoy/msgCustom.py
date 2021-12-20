@@ -35,3 +35,17 @@ dictGValue = {
 dictTValue = {
     'tJrrpResult': 'N/A'
 }
+
+dictHelpDocTemp = {
+    'jrrp': '''每日人品
+.jrrp 今日人品
+.zrrp 昨日人品
+.mrrp 明日人品
+此功能采用源自《梅花易数》的卜算方法，以日期与八字起卦进行推演，结果仅供参考。''',
+
+    'zrrp': '&log',
+    'mrrp': '&log',
+    '今日人品': '&log',
+    '昨日人品': '&log',
+    '明日人品': '&log',
+}
