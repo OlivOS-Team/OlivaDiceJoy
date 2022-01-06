@@ -15,4 +15,6 @@ _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
 '''
 
 
-OlivaDiceJoy_ver = '3.0.1'
+OlivaDiceJoy_ver = '3.0.2'
+OlivaDiceJoy_svn = 10
+OlivaDiceJoy_ver_short = '%s(%s)' % (str(OlivaDiceJoy_ver), str(OlivaDiceJoy_svn))

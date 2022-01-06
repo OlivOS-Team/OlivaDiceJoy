@@ -79,6 +79,7 @@ def unity_reply(plugin_event, Proc):
         OlivaDiceCore.crossHook.dictHookList['prefix']
     )
     if flag_is_command:
+        tmp_hagID = None
         if plugin_event.plugin_info['func_type'] == 'group_message':
             if plugin_event.data.host_id != None:
                 flag_is_from_host = True
@@ -90,6 +91,13 @@ def unity_reply(plugin_event, Proc):
                 flag_is_from_group_have_admin = True
                 if plugin_event.data.sender['role'] in ['owner', 'admin']:
                     flag_is_from_group_admin = True
+                elif plugin_event.data.sender['role'] in ['sub_admin']:
+                    flag_is_from_group_admin = True
+                    flag_is_from_group_sub_admin = True
+        if flag_is_from_host and flag_is_from_group:
+            tmp_hagID = '%s|%s' % (str(plugin_event.data.host_id), str(plugin_event.data.group_id))
+        elif flag_is_from_group:
+            tmp_hagID = str(plugin_event.data.group_id)
         flag_hostEnable = True
         if flag_is_from_host:
             flag_hostEnable = OlivaDiceCore.userConfig.getUserConfigByKey(
@@ -113,7 +121,7 @@ def unity_reply(plugin_event, Proc):
             if flag_is_from_host:
                 if flag_hostEnable:
                     flag_groupEnable = OlivaDiceCore.userConfig.getUserConfigByKey(
-                        userId = plugin_event.data.group_id,
+                        userId = tmp_hagID,
                         userType = 'group',
                         platform = plugin_event.platform['platform'],
                         userConfigKey = 'groupEnable',
@@ -121,7 +129,7 @@ def unity_reply(plugin_event, Proc):
                     )
                 else:
                     flag_groupEnable = OlivaDiceCore.userConfig.getUserConfigByKey(
-                        userId = plugin_event.data.group_id,
+                        userId = tmp_hagID,
                         userType = 'group',
                         platform = plugin_event.platform['platform'],
                         userConfigKey = 'groupWithHostEnable',
@@ -129,7 +137,7 @@ def unity_reply(plugin_event, Proc):
                     )
             else:
                 flag_groupEnable = OlivaDiceCore.userConfig.getUserConfigByKey(
-                    userId = plugin_event.data.group_id,
+                    userId = tmp_hagID,
                     userType = 'group',
                     platform = plugin_event.platform['platform'],
                     userConfigKey = 'groupEnable',

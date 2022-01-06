@@ -3,6 +3,9 @@
     "author" : "lunzhiPenxil",
     "namespace" : "OlivaDiceJoy",
     "message_mode" : "old_string",
+    "version" : "3.0.2",
+    "svn" : 10,
+    "compatible_svn" : 81,
     "priority" : 30010,
     "support" : [
         {

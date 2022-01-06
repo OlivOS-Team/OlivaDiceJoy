@@ -43,6 +43,17 @@ dictHelpDocTemp = {
 .mrrp 明日人品
 此功能采用源自《梅花易数》的卜算方法，以日期与八字起卦进行推演，结果仅供参考。''',
 
+    'OlivaDiceJoy': '''[OlivaDiceJoy]
+OlivaDice娱乐模块
+本模块为青果跑团掷骰机器人(OlivaDice)娱乐模块，集成与跑团无关的历史遗留娱乐功能（如今日人品等）。
+核心开发者: lunzhiPenxil仑质
+[.help OlivaDiceJoy更新] 查看本模块更新日志
+注: 本模块为可选不重要模块。''',
+
+    'OlivaDiceJoy更新': '''[OlivaDiceJoy]
+3.0.2: 用户记录优化
+3.0.0: 初始化项目''',
+
     'zrrp': '&jrrp',
     'mrrp': '&jrrp',
     '今日人品': '&jrrp',
