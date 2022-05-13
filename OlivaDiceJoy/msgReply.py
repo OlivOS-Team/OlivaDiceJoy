@@ -20,12 +20,45 @@ import OlivaDiceCore
 
 import hashlib
 import time
+from functools import wraps
 
 def unity_init(plugin_event, Proc):
     pass
 
 def data_init(plugin_event, Proc):
     OlivaDiceJoy.msgCustomManager.initMsgCustom(Proc.Proc_data['bot_info_dict'])
+    OlivaDiceCore.crossHook.dictHookFunc['pokeHook'] = add_poke_rd_func(OlivaDiceCore.crossHook.dictHookFunc['pokeHook'])
+
+def add_poke_rd_func(target_func):
+    @wraps(target_func)
+    def poke_rd_func(plugin_event, type):
+        flag_need = False
+        if OlivaDiceCore.console.getConsoleSwitchByHash(
+            'joyPokeMode',
+            plugin_event.bot_info.hash
+        ) == 1:
+            flag_need = True
+        if flag_need:
+            res = poke_rd(plugin_event, type)
+        else:
+            res = target_func(plugin_event, type)
+        return res
+    return poke_rd_func
+
+def poke_rd(plugin_event, type):
+    dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
+    dictTValue['tName'] = '你'
+    dictStrCustom = OlivaDiceCore.msgCustom.dictStrCustomDict[plugin_event.bot_info.hash]
+    dictGValue = OlivaDiceCore.msgCustom.dictGValue
+    dictTValue.update(dictGValue)
+    rd = OlivaDiceCore.onedice.RD('1D100')
+    rd.roll()
+    res = plugin_event.get_stranger_info(user_id = plugin_event.data.user_id)
+    if res != None:
+        dictTValue['tName'] = res['data']['name']
+    dictTValue['tRollResult'] = '1D100=%s' % str(rd.resInt)
+    tmp_reply_str = dictStrCustom['strRoll'].format(**dictTValue)
+    return tmp_reply_str
 
 def unity_reply(plugin_event, Proc):
     OlivaDiceCore.userConfig.setMsgCount()

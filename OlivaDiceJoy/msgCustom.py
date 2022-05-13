@@ -18,6 +18,12 @@ import OlivOS
 import OlivaDiceCore
 import OlivaDiceJoy
 
+dictConsoleSwitchTemplate = {
+    'default' : {
+        'joyPokeMode': 0
+    }
+}
+
 dictStrCustomDict = {}
 
 dictStrCustom = {
