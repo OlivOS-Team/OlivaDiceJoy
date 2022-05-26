@@ -32,13 +32,11 @@ def data_init(plugin_event, Proc):
 def add_poke_rd_func(target_func):
     @wraps(target_func)
     def poke_rd_func(plugin_event, type):
-        flag_need = False
-        if OlivaDiceCore.console.getConsoleSwitchByHash(
+        flag_need = OlivaDiceCore.console.getConsoleSwitchByHash(
             'joyPokeMode',
             plugin_event.bot_info.hash
-        ) == 1:
-            flag_need = True
-        if flag_need:
+        )
+        if flag_need == 1:
             res = poke_rd(plugin_event, type)
         else:
             res = target_func(plugin_event, type)
@@ -48,15 +46,54 @@ def add_poke_rd_func(target_func):
 def poke_rd(plugin_event, type):
     dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
     dictTValue['tName'] = '你'
+    tmp_pcName = None
+    rd_para_str = '1D100'
+    tmp_template_customDefault = None
     dictStrCustom = OlivaDiceCore.msgCustom.dictStrCustomDict[plugin_event.bot_info.hash]
     dictGValue = OlivaDiceCore.msgCustom.dictGValue
     dictTValue.update(dictGValue)
-    rd = OlivaDiceCore.onedice.RD('1D100')
+    tmp_pc_id = plugin_event.data.user_id
+    tmp_pc_platform = plugin_event.platform['platform']
+    tmp_pcHash = OlivaDiceCore.pcCard.getPcHash(
+        tmp_pc_id,
+        tmp_pc_platform
+    )
+    skill_valueTable = OlivaDiceCore.pcCard.pcCardDataGetByPcName(tmp_pcHash)
+    tmp_pcName = OlivaDiceCore.pcCard.pcCardDataGetSelectionKey(tmp_pcHash)
+    if tmp_pcName != None:
+        tmp_template_name = OlivaDiceCore.pcCard.pcCardDataGetTemplateKey(tmp_pcHash, tmp_pcName)
+        tmp_template = OlivaDiceCore.pcCard.pcCardDataGetTemplateByKey(tmp_template_name)
+        if tmp_template != None:
+            if 'customDefault' in tmp_template:
+                tmp_template_customDefault = tmp_template['customDefault']
+            if 'mainDice' in tmp_template:
+                rd_para_str = tmp_template['mainDice']
+    rd = OlivaDiceCore.onedice.RD(rd_para_str, tmp_template_customDefault, valueTable = skill_valueTable)
     rd.roll()
-    res = plugin_event.get_stranger_info(user_id = plugin_event.data.user_id)
-    if res != None:
-        dictTValue['tName'] = res['data']['name']
-    dictTValue['tRollResult'] = '1D100=%s' % str(rd.resInt)
+    if tmp_pcName == None:
+        tmp_userHash = OlivaDiceCore.userConfig.getUserHash(
+            userId = tmp_pc_id,
+            userType = 'user',
+            platform = tmp_pc_platform
+        )
+        tmp_userId = OlivaDiceCore.userConfig.getUserDataByKeyWithHash(
+            userHash = tmp_userHash,
+            userDataKey = 'userId',
+            botHash = plugin_event.bot_info.hash
+        )
+        if tmp_userId != None:
+            tmp_pcName = OlivaDiceCore.userConfig.getUserConfigByKeyWithHash(
+                userHash = tmp_userHash,
+                userConfigKey = 'userName',
+                botHash = plugin_event.bot_info.hash
+            )
+    if tmp_pcName == None:
+        res = plugin_event.get_stranger_info(user_id = plugin_event.data.user_id)
+        if res != None:
+            tmp_pcName = res['data']['name']
+    if tmp_pcName != None:
+        dictTValue['tName'] = tmp_pcName
+    dictTValue['tRollResult'] = '%s=%s' % (rd_para_str, str(rd.resInt))
     tmp_reply_str = dictStrCustom['strRoll'].format(**dictTValue)
     return tmp_reply_str
 
