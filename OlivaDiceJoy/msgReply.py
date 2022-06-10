@@ -38,10 +38,52 @@ def add_poke_rd_func(target_func):
         )
         if flag_need == 1:
             res = poke_rd(plugin_event, type)
+        elif flag_need == 2:
+            res = poke_jrrp(plugin_event, type)
         else:
             res = target_func(plugin_event, type)
         return res
     return poke_rd_func
+
+def poke_jrrp(plugin_event, type):
+    dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
+    dictTValue['tName'] = '你'
+    tmp_pcName = None
+    dictStrCustom = OlivaDiceCore.msgCustom.dictStrCustomDict[plugin_event.bot_info.hash]
+    dictGValue = OlivaDiceCore.msgCustom.dictGValue
+    dictTValue.update(dictGValue)
+    tmp_pc_id = plugin_event.data.user_id
+    tmp_pc_platform = plugin_event.platform['platform']
+    if tmp_pcName == None:
+        tmp_userHash = OlivaDiceCore.userConfig.getUserHash(
+            userId = tmp_pc_id,
+            userType = 'user',
+            platform = tmp_pc_platform
+        )
+        tmp_userId = OlivaDiceCore.userConfig.getUserDataByKeyWithHash(
+            userHash = tmp_userHash,
+            userDataKey = 'userId',
+            botHash = plugin_event.bot_info.hash
+        )
+        if tmp_userId != None:
+            tmp_pcName = OlivaDiceCore.userConfig.getUserConfigByKeyWithHash(
+                userHash = tmp_userHash,
+                userConfigKey = 'userName',
+                botHash = plugin_event.bot_info.hash
+            )
+    if tmp_pcName == None:
+        res = plugin_event.get_stranger_info(user_id = plugin_event.data.user_id)
+        if res != None:
+            tmp_pcName = res['data']['name']
+    if tmp_pcName != None:
+        dictTValue['tName'] = tmp_pcName
+        hash_tmp = hashlib.new('md5')
+        hash_tmp.update(str(time.strftime('%Y-%m-%d', time.localtime())).encode(encoding='UTF-8'))
+        hash_tmp.update(str(plugin_event.data.user_id).encode(encoding='UTF-8'))
+        tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
+        dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
+        tmp_reply_str = dictStrCustom['strJoyJrrp'].format(**dictTValue)
+    return tmp_reply_str
 
 def poke_rd(plugin_event, type):
     dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
