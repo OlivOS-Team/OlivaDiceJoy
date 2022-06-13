@@ -88,12 +88,13 @@ def poke_jrrp(plugin_event, type):
 def poke_rd(plugin_event, event_type):
     tmp_group_id = plugin_event.data.group_id
     tmp_hagID = None
-    if tmp_group_id == -1:
-        tmp_hagID = None
-    elif tmp_group_id == None:
-        tmp_hagID = None
-    elif type(tmp_group_id) == str:
-        tmp_hagID = tmp_group_id
+    if event_type == 'group':
+        if tmp_group_id == -1:
+            tmp_hagID = None
+        elif tmp_group_id == None:
+            tmp_hagID = None
+        elif type(tmp_group_id) == str:
+            tmp_hagID = tmp_group_id
     dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
     dictTValue['tName'] = '你'
     tmp_pcName = None
