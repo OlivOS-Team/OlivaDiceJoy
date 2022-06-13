@@ -85,7 +85,15 @@ def poke_jrrp(plugin_event, type):
         tmp_reply_str = dictStrCustom['strJoyJrrp'].format(**dictTValue)
     return tmp_reply_str
 
-def poke_rd(plugin_event, type):
+def poke_rd(plugin_event, event_type):
+    tmp_group_id = plugin_event.data.group_id
+    tmp_hagID = None
+    if tmp_group_id == -1:
+        tmp_hagID = None
+    elif tmp_group_id == None:
+        tmp_hagID = None
+    elif type(tmp_group_id) == str:
+        tmp_hagID = tmp_group_id
     dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
     dictTValue['tName'] = '你'
     tmp_pcName = None
@@ -100,8 +108,8 @@ def poke_rd(plugin_event, type):
         tmp_pc_id,
         tmp_pc_platform
     )
-    skill_valueTable = OlivaDiceCore.pcCard.pcCardDataGetByPcName(tmp_pcHash)
-    tmp_pcName = OlivaDiceCore.pcCard.pcCardDataGetSelectionKey(tmp_pcHash)
+    skill_valueTable = OlivaDiceCore.pcCard.pcCardDataGetByPcName(tmp_pcHash, hagId = tmp_hagID)
+    tmp_pcName = OlivaDiceCore.pcCard.pcCardDataGetSelectionKey(tmp_pcHash, hagId = tmp_hagID)
     if tmp_pcName != None:
         tmp_template_name = OlivaDiceCore.pcCard.pcCardDataGetTemplateKey(tmp_pcHash, tmp_pcName)
         tmp_template = OlivaDiceCore.pcCard.pcCardDataGetTemplateByKey(tmp_template_name)
