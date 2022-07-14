@@ -40,6 +40,8 @@ def add_poke_rd_func(target_func):
             res = poke_rd(plugin_event, type)
         elif flag_need == 2:
             res = poke_jrrp(plugin_event, type)
+        elif flag_need == 3:
+            res = ""
         else:
             res = target_func(plugin_event, type)
         return res
