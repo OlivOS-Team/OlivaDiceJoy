@@ -54,6 +54,7 @@ def poke_jrrp(plugin_event, type):
     dictStrCustom = OlivaDiceCore.msgCustom.dictStrCustomDict[plugin_event.bot_info.hash]
     dictGValue = OlivaDiceCore.msgCustom.dictGValue
     dictTValue.update(dictGValue)
+    dictTValue = OlivaDiceCore.msgCustomManager.dictTValueInit(plugin_event, dictTValue)
     tmp_pc_id = plugin_event.data.user_id
     tmp_pc_platform = plugin_event.platform['platform']
     if tmp_pcName == None:
@@ -105,6 +106,7 @@ def poke_rd(plugin_event, event_type):
     dictStrCustom = OlivaDiceCore.msgCustom.dictStrCustomDict[plugin_event.bot_info.hash]
     dictGValue = OlivaDiceCore.msgCustom.dictGValue
     dictTValue.update(dictGValue)
+    dictTValue = OlivaDiceCore.msgCustomManager.dictTValueInit(plugin_event, dictTValue)
     tmp_pc_id = plugin_event.data.user_id
     tmp_pc_platform = plugin_event.platform['platform']
     tmp_pcHash = OlivaDiceCore.pcCard.getPcHash(
@@ -157,6 +159,7 @@ def unity_reply(plugin_event, Proc):
     dictStrCustom = OlivaDiceCore.msgCustom.dictStrCustomDict[plugin_event.bot_info.hash]
     dictGValue = OlivaDiceCore.msgCustom.dictGValue
     dictTValue.update(dictGValue)
+    dictTValue = OlivaDiceCore.msgCustomManager.dictTValueInit(plugin_event, dictTValue)
 
     replyMsg = OlivaDiceCore.msgReply.replyMsg
     isMatchWordStart = OlivaDiceCore.msgReply.isMatchWordStart
