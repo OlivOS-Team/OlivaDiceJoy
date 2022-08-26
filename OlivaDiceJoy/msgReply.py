@@ -84,7 +84,7 @@ def poke_jrrp(plugin_event, type):
         hash_tmp.update(str(plugin_event.data.user_id).encode(encoding='UTF-8'))
         tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
         dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
-        tmp_reply_str = dictStrCustom['strJoyJrrp'].format(**dictTValue)
+        tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strJoyJrrp'], dictTValue)
     return tmp_reply_str
 
 def poke_rd(plugin_event, event_type):
@@ -147,7 +147,7 @@ def poke_rd(plugin_event, event_type):
     if tmp_pcName != None:
         dictTValue['tName'] = tmp_pcName
     dictTValue['tRollResult'] = '%s=%s' % (rd_para_str, str(rd.resInt))
-    tmp_reply_str = dictStrCustom['strRoll'].format(**dictTValue)
+    tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strRoll'], dictTValue)
     return tmp_reply_str
 
 def unity_reply(plugin_event, Proc):
@@ -282,7 +282,7 @@ def unity_reply(plugin_event, Proc):
             hash_tmp.update(str(plugin_event.data.user_id).encode(encoding='UTF-8'))
             tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
             dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
-            tmp_reply_str = dictStrCustom['strJoyJrrp'].format(**dictTValue)
+            tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strJoyJrrp'], dictTValue)
             if tmp_reply_str != None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
@@ -296,7 +296,7 @@ def unity_reply(plugin_event, Proc):
             hash_tmp.update(str(plugin_event.data.user_id).encode(encoding='UTF-8'))
             tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
             dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
-            tmp_reply_str = dictStrCustom['strJoyZrrp'].format(**dictTValue)
+            tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strJoyZrrp'], dictTValue)
             if tmp_reply_str != None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
@@ -310,7 +310,7 @@ def unity_reply(plugin_event, Proc):
             hash_tmp.update(str(plugin_event.data.user_id).encode(encoding='UTF-8'))
             tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
             dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
-            tmp_reply_str = dictStrCustom['strJoyMrrp'].format(**dictTValue)
+            tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strJoyMrrp'], dictTValue)
             if tmp_reply_str != None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
