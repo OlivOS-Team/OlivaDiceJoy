@@ -23,6 +23,8 @@ class Event(object):
         OlivaDiceJoy.msgReply.unity_init(plugin_event, Proc)
 
     def init_after(plugin_event, Proc):
+        OlivaDiceJoy.data.listPlugin = Proc.get_plugin_list()
+        OlivaDiceJoy.data.globalProc = Proc
         OlivaDiceCore.crossHook.dictHookList['model'].append(['OlivaDiceJoy', OlivaDiceJoy.data.OlivaDiceJoy_ver_short])
         OlivaDiceJoy.msgReply.data_init(plugin_event, Proc)
 

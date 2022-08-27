@@ -28,6 +28,7 @@ def unity_init(plugin_event, Proc):
 def data_init(plugin_event, Proc):
     OlivaDiceJoy.msgCustomManager.initMsgCustom(Proc.Proc_data['bot_info_dict'])
     OlivaDiceCore.crossHook.dictHookFunc['pokeHook'] = add_poke_rd_func(OlivaDiceCore.crossHook.dictHookFunc['pokeHook'])
+    OlivaDiceCore.crossHook.dictHookFunc['msgFormatHook'] = add_chance_custom_msg_func(OlivaDiceCore.crossHook.dictHookFunc['msgFormatHook'])
 
 def add_poke_rd_func(target_func):
     @wraps(target_func)
@@ -317,3 +318,49 @@ def unity_reply(plugin_event, Proc):
             if tmp_reply_str != None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
+
+def add_chance_custom_msg_func(target_func):
+    @wraps(target_func)
+    def msg_func(data:str, valDict:dict):
+        bot_hash = None
+        plugin_event = None
+        if 'tBotHash' in valDict:
+            bot_hash = valDict['tBotHash']
+        if 'vValDict' in valDict:
+            if 'vPluginEvent' in valDict['vValDict']:
+                plugin_event = valDict['vValDict']['vPluginEvent']
+        flag_need = OlivaDiceCore.console.getConsoleSwitchByHash(
+            'joyEnableChance',
+            bot_hash
+        )
+        if flag_need == 1 and plugin_event != None:
+            res = chance_custom_msg(plugin_event, data, valDict)
+        else:
+            res = target_func(data, valDict)
+        return res
+    return msg_func
+
+def chance_custom_msg(plugin_event:OlivOS.API.Event, data:str, valDict:dict):
+    msg = data
+    if 'ChanceCustom' in OlivaDiceJoy.data.listPlugin:
+        import ChanceCustom
+        chance_valDict = {}
+        event_name = None
+        if type(plugin_event.data) == OlivOS.API.Event.group_message:
+            event_name = 'group_message'
+        elif type(plugin_event.data) == OlivOS.API.Event.private_message:
+            event_name = 'private_message'
+        elif type(plugin_event.data) == OlivOS.API.Event.poke:
+            if plugin_event.data.group_id in [-1, None]:
+                event_name = 'poke_private'
+            else:
+                event_name = 'poke_group'
+        if event_name != None:
+            ChanceCustom.replyCore.getValDict(chance_valDict, plugin_event, OlivaDiceJoy.data.globalProc, event_name)
+            chance_valDict['innerVal']['bot_hash'] = plugin_event.bot_info.hash
+            chance_valDict['innerVal']['bot_hash_self'] = plugin_event.bot_info.hash
+            msg = ChanceCustom.replyReg.replyValueRegTotal(
+                data,
+                chance_valDict
+            )
+    return msg

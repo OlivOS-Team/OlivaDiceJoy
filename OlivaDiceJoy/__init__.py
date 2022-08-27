@@ -15,8 +15,8 @@ _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
 '''
 
 import OlivaDiceCore
-import OlivaDiceJoy.main
-import OlivaDiceJoy.msgReply
-import OlivaDiceJoy.msgCustom
-import OlivaDiceJoy.msgCustomManager
-import OlivaDiceJoy.data
+from . import main
+from . import msgReply
+from . import msgCustom
+from . import msgCustomManager
+from . import data
