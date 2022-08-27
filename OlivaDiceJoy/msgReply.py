@@ -20,6 +20,7 @@ import OlivaDiceCore
 
 import hashlib
 import time
+import traceback
 from functools import wraps
 
 def unity_init(plugin_event, Proc):
@@ -330,7 +331,7 @@ def add_chance_custom_msg_func(target_func):
             if 'vPluginEvent' in valDict['vValDict']:
                 plugin_event = valDict['vValDict']['vPluginEvent']
         flag_need = OlivaDiceCore.console.getConsoleSwitchByHash(
-            'joyEnableChance',
+            'joyEnableCCPK',
             bot_hash
         )
         if flag_need == 1 and plugin_event != None:
@@ -359,8 +360,15 @@ def chance_custom_msg(plugin_event:OlivOS.API.Event, data:str, valDict:dict):
             ChanceCustom.replyCore.getValDict(chance_valDict, plugin_event, OlivaDiceJoy.data.globalProc, event_name)
             chance_valDict['innerVal']['bot_hash'] = plugin_event.bot_info.hash
             chance_valDict['innerVal']['bot_hash_self'] = plugin_event.bot_info.hash
-            msg = ChanceCustom.replyReg.replyValueRegTotal(
-                data,
-                chance_valDict
-            )
+            try:
+                msg = ChanceCustom.replyReg.replyValueRegTotal(
+                    data,
+                    chance_valDict
+                )
+            except:
+                msg = data
+                OlivaDiceJoy.data.globalProc.log(3, traceback.format_exc(), [
+                    ('OlivaDice', 'default'),
+                    ('joyCCPK', 'default')
+                ])
     return msg
