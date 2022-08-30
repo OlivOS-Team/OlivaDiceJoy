@@ -361,8 +361,11 @@ def chance_custom_msg(plugin_event:OlivOS.API.Event, data:str, valDict:dict):
             chance_valDict['innerVal']['bot_hash'] = plugin_event.bot_info.hash
             chance_valDict['innerVal']['bot_hash_self'] = plugin_event.bot_info.hash
             try:
+                msg_1 = data
+                msg_1 = msg_1.replace('\r\n', '\n')
+                msg_1 = msg_1.replace('\n', '【换行】')
                 msg = ChanceCustom.replyReg.replyValueRegTotal(
-                    data,
+                    msg_1,
                     chance_valDict
                 )
             except:
