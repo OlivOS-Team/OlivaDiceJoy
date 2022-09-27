@@ -30,6 +30,7 @@ def data_init(plugin_event, Proc):
     OlivaDiceJoy.msgCustomManager.initMsgCustom(Proc.Proc_data['bot_info_dict'])
     OlivaDiceCore.crossHook.dictHookFunc['pokeHook'] = add_poke_rd_func(OlivaDiceCore.crossHook.dictHookFunc['pokeHook'])
     OlivaDiceCore.crossHook.dictHookFunc['msgFormatHook'] = add_chance_custom_msg_func(OlivaDiceCore.crossHook.dictHookFunc['msgFormatHook'])
+    OlivaDiceCore.crossHook.dictHookFunc['drawFormatHook'] = add_chance_custom_to_deck_func(OlivaDiceCore.crossHook.dictHookFunc['drawFormatHook'])
 
 def add_poke_rd_func(target_func):
     @wraps(target_func)
@@ -335,13 +336,29 @@ def add_chance_custom_msg_func(target_func):
             bot_hash
         )
         if flag_need == 1 and plugin_event != None:
-            res = chance_custom_msg(plugin_event, data, valDict)
+            res = chance_custom_msg(plugin_event, data)
         else:
             res = target_func(data, valDict)
         return res
     return msg_func
 
-def chance_custom_msg(plugin_event:OlivOS.API.Event, data:str, valDict:dict):
+def add_chance_custom_to_deck_func(target_func):
+    @wraps(target_func)
+    def msg_func(data:str, plugin_event:OlivOS.API.Event):
+        bot_hash = plugin_event.bot_info.hash
+        res = data
+        for key_this in ['【程心】', '【铃心】', '【EPK】', '【CCPK】']:
+            if res.startswith('%s::' % key_this) or res.startswith('::%s::' % key_this):
+                if res.startswith('::'):
+                    res = res[len('::'):]
+                if res.startswith('%s::' % key_this):
+                    res = res[len('%s::' % key_this):]
+                res = chance_custom_msg(plugin_event, res)
+                break
+        return res
+    return msg_func
+
+def chance_custom_msg(plugin_event:OlivOS.API.Event, data:str):
     msg = data
     if 'ChanceCustom' in OlivaDiceJoy.data.listPlugin:
         import ChanceCustom

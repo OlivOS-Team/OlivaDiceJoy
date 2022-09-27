@@ -4,8 +4,8 @@
     "namespace" : "OlivaDiceJoy",
     "message_mode" : "old_string",
     "info" : "本模块为OlivaDice的娱乐模块，提供了一些无关紧要的娱乐功能，它们或许是与跑团关系不大、或许只是一些历史原因遗留下来的传统，总之，这些在野蛮生长时期被或是由于开发者无知、或是作为恶性竞争手段、或是用户呼声较大但对于跑团而言意义不明的，被添加进来的小功能，都会被放入这个模块。",
-    "version" : "3.0.8",
-    "svn" : 16,
+    "version" : "3.0.9",
+    "svn" : 17,
     "compatible_svn" : 101,
     "priority" : 20010,
     "support" : [
