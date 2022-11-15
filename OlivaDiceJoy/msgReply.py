@@ -22,6 +22,7 @@ import hashlib
 import time
 import traceback
 from functools import wraps
+import copy
 
 def unity_init(plugin_event, Proc):
     pass
@@ -93,6 +94,7 @@ def poke_jrrp(plugin_event, type):
 
 def poke_rd(plugin_event, event_type):
     tmp_group_id = plugin_event.data.group_id
+    tmp_user_platform = plugin_event.platform['platform']
     tmp_hagID = None
     if event_type == 'group':
         if tmp_group_id == -1:
@@ -126,6 +128,29 @@ def poke_rd(plugin_event, event_type):
                 tmp_template_customDefault = tmp_template['customDefault']
             if 'mainDice' in tmp_template:
                 rd_para_str = tmp_template['mainDice']
+    rd_para_main_str = OlivaDiceCore.userConfig.getUserConfigByKey(
+        userId = tmp_hagID,
+        userType = 'group',
+        platform = tmp_user_platform,
+        userConfigKey = 'groupMainDice',
+        botHash = plugin_event.bot_info.hash
+    )
+    rd_para_main_D_right = OlivaDiceCore.userConfig.getUserConfigByKey(
+        userId = tmp_hagID,
+        userType = 'group',
+        platform = tmp_user_platform,
+        userConfigKey = 'groupMainDiceDRight',
+        botHash = plugin_event.bot_info.hash
+    )
+    if rd_para_main_str != None:
+        rd_para_str = rd_para_main_str
+    tmp_template_customDefault = copy.deepcopy(tmp_template_customDefault)
+    if type(rd_para_main_D_right) == int:
+        if type(tmp_template_customDefault) != dict:
+            tmp_template_customDefault = {}
+            if 'd' not in tmp_template_customDefault:
+                tmp_template_customDefault['d'] = {}
+        tmp_template_customDefault['d']['rightD'] = rd_para_main_D_right
     rd = OlivaDiceCore.onedice.RD(rd_para_str, tmp_template_customDefault, valueTable = skill_valueTable)
     rd.roll()
     if tmp_pcName == None:
