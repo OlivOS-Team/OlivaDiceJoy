@@ -303,7 +303,7 @@ def unity_reply(plugin_event, Proc):
         #此群关闭时中断处理
         if not flag_groupEnable and not flag_force_reply:
             return
-        if isMatchWordStart(tmp_reast_str, 'jrrp'):
+        if isMatchWordStart(tmp_reast_str, 'jrrp', isCommand = True):
             tmp_reast_str = getMatchWordStartRight(tmp_reast_str, 'jrrp')
             tmp_reast_str = skipSpaceStart(tmp_reast_str)
             tmp_reast_str = tmp_reast_str.rstrip(' ')
@@ -317,7 +317,7 @@ def unity_reply(plugin_event, Proc):
             if tmp_reply_str != None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
-        elif isMatchWordStart(tmp_reast_str, 'zrrp'):
+        elif isMatchWordStart(tmp_reast_str, 'zrrp', isCommand = True):
             tmp_reast_str = getMatchWordStartRight(tmp_reast_str, 'zrrp')
             tmp_reast_str = skipSpaceStart(tmp_reast_str)
             tmp_reast_str = tmp_reast_str.rstrip(' ')
@@ -331,7 +331,7 @@ def unity_reply(plugin_event, Proc):
             if tmp_reply_str != None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
-        elif isMatchWordStart(tmp_reast_str, 'mrrp'):
+        elif isMatchWordStart(tmp_reast_str, 'mrrp', isCommand = True):
             tmp_reast_str = getMatchWordStartRight(tmp_reast_str, 'mrrp')
             tmp_reast_str = skipSpaceStart(tmp_reast_str)
             tmp_reast_str = tmp_reast_str.rstrip(' ')
