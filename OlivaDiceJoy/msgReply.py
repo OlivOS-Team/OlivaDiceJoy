@@ -93,7 +93,9 @@ def poke_jrrp(plugin_event, type):
     return tmp_reply_str
 
 def poke_rd(plugin_event, event_type):
-    tmp_group_id = plugin_event.data.group_id
+    tmp_group_id = None
+    if 'group_id' in plugin_event.data.__dict__:
+        tmp_group_id = plugin_event.data.group_id
     tmp_user_platform = plugin_event.platform['platform']
     tmp_hagID = None
     if event_type == 'group':

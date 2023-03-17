@@ -15,8 +15,8 @@ _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
 '''
 
 
-OlivaDiceJoy_ver = '3.0.11'
-OlivaDiceJoy_svn = 19
+OlivaDiceJoy_ver = '3.0.12'
+OlivaDiceJoy_svn = 20
 OlivaDiceJoy_ver_short = '%s(%s)' % (str(OlivaDiceJoy_ver), str(OlivaDiceJoy_svn))
 
 listPlugin = []
