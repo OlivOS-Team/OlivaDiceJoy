@@ -172,12 +172,14 @@ def poke_rd(plugin_event, event_type):
                 userConfigKey = 'userName',
                 botHash = plugin_event.bot_info.hash
             )
-    if tmp_pcName == None:
-        res = plugin_event.get_stranger_info(user_id = plugin_event.data.user_id)
-        if res != None:
+    res = plugin_event.get_stranger_info(user_id = plugin_event.data.user_id)
+    if res != None:
+        if tmp_pcName == None:
             tmp_pcName = res['data']['name']
+        tmp_plName = res['data']['name']
     if tmp_pcName != None:
         dictTValue['tName'] = tmp_pcName
+    dictTValue['tUserName'] = tmp_plName if tmp_plName else tmp_pc_id
     dictTValue['tRollResult'] = '%s=%s' % (rd_para_str, str(rd.resInt))
     tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strRoll'], dictTValue)
     return tmp_reply_str
