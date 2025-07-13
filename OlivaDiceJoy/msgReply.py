@@ -55,6 +55,7 @@ def poke_jrrp(plugin_event, type):
     dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
     dictTValue['tName'] = '你'
     tmp_pcName = None
+    tmp_plName = None
     dictStrCustom = OlivaDiceCore.msgCustom.dictStrCustomDict[plugin_event.bot_info.hash]
     dictGValue = OlivaDiceCore.msgCustom.dictGValue
     dictTValue.update(dictGValue)
@@ -78,10 +79,12 @@ def poke_jrrp(plugin_event, type):
                 userConfigKey = 'userName',
                 botHash = plugin_event.bot_info.hash
             )
-    if tmp_pcName == None:
-        res = plugin_event.get_stranger_info(user_id = plugin_event.data.user_id)
-        if res != None:
+    res = plugin_event.get_stranger_info(user_id = plugin_event.data.user_id)
+    if res != None:
+        if tmp_pcName == None:
             tmp_pcName = res['data']['name']
+        tmp_plName = res['data']['name']
+    dictTValue['tUserName'] = tmp_plName if tmp_plName else tmp_pc_id
     if tmp_pcName != None:
         dictTValue['tName'] = tmp_pcName
         hash_tmp = hashlib.new('md5')
@@ -108,6 +111,7 @@ def poke_rd(plugin_event, event_type):
     dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
     dictTValue['tName'] = '你'
     tmp_pcName = None
+    tmp_plName = None
     rd_para_str = '1D100'
     tmp_template_customDefault = None
     dictStrCustom = OlivaDiceCore.msgCustom.dictStrCustomDict[plugin_event.bot_info.hash]
