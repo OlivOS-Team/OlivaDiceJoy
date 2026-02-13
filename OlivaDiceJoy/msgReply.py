@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-"""
+r"""
 _______________________    _________________________________________
 __  __ \__  /____  _/_ |  / /__    |__  __ \___  _/_  ____/__  ____/
 _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
@@ -10,7 +10,7 @@ _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
 @Author    :   lunzhiPenxil仑质
 @Contact   :   lunzhipenxil@gmail.com
 @License   :   AGPL
-@Copyright :   (C) 2020-2021, OlivOS-Team
+@Copyright :   (C) 2020-2026, OlivOS-Team
 @Desc      :   None
 """
 
@@ -73,22 +73,22 @@ def poke_jrrp(plugin_event, type):
     dictTValue = OlivaDiceCore.msgCustomManager.dictTValueInit(plugin_event, dictTValue)
     tmp_pc_id = plugin_event.data.user_id
     tmp_pc_platform = plugin_event.platform['platform']
-    if tmp_pcName == None:
+    if tmp_pcName is None:
         tmp_userHash = OlivaDiceCore.userConfig.getUserHash(userId=tmp_pc_id, userType='user', platform=tmp_pc_platform)
         tmp_userId = OlivaDiceCore.userConfig.getUserDataByKeyWithHash(
             userHash=tmp_userHash, userDataKey='userId', botHash=plugin_event.bot_info.hash
         )
-        if tmp_userId != None:
+        if tmp_userId is not None:
             tmp_pcName = OlivaDiceCore.userConfig.getUserConfigByKeyWithHash(
                 userHash=tmp_userHash, userConfigKey='userName', botHash=plugin_event.bot_info.hash
             )
     res = plugin_event.get_stranger_info(user_id=plugin_event.data.user_id)
-    if res != None:
-        if tmp_pcName == None:
+    if res is not None:
+        if tmp_pcName is None:
             tmp_pcName = res['data']['name']
         tmp_plName = res['data']['name']
     dictTValue['tUserName'] = tmp_plName if tmp_plName else tmp_pc_id
-    if tmp_pcName != None:
+    if tmp_pcName is not None:
         dictTValue['tName'] = tmp_pcName
         hash_tmp = hashlib.new('md5')
         hash_tmp.update(str(time.strftime('%Y-%m-%d', time.localtime())).encode(encoding='UTF-8'))
@@ -112,22 +112,22 @@ def poke_custom(plugin_event, type):
     dictTValue = OlivaDiceCore.msgCustomManager.dictTValueInit(plugin_event, dictTValue)
     tmp_pc_id = plugin_event.data.user_id
     tmp_pc_platform = plugin_event.platform['platform']
-    if tmp_pcName == None:
+    if tmp_pcName is None:
         tmp_userHash = OlivaDiceCore.userConfig.getUserHash(userId=tmp_pc_id, userType='user', platform=tmp_pc_platform)
         tmp_userId = OlivaDiceCore.userConfig.getUserDataByKeyWithHash(
             userHash=tmp_userHash, userDataKey='userId', botHash=plugin_event.bot_info.hash
         )
-        if tmp_userId != None:
+        if tmp_userId is not None:
             tmp_pcName = OlivaDiceCore.userConfig.getUserConfigByKeyWithHash(
                 userHash=tmp_userHash, userConfigKey='userName', botHash=plugin_event.bot_info.hash
             )
     res = plugin_event.get_stranger_info(user_id=plugin_event.data.user_id)
-    if res != None:
-        if tmp_pcName == None:
+    if res is not None:
+        if tmp_pcName is None:
             tmp_pcName = res['data']['name']
         tmp_plName = res['data']['name']
     dictTValue['tUserName'] = tmp_plName if tmp_plName else tmp_pc_id
-    if tmp_pcName != None:
+    if tmp_pcName is not None:
         dictTValue['tName'] = tmp_pcName
     # 使用自定义回复模板
     tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strJoyPokeCustom'], dictTValue)
@@ -143,7 +143,7 @@ def poke_rd(plugin_event, event_type):
     if event_type == 'group':
         if tmp_group_id == -1:
             tmp_hagID = None
-        elif tmp_group_id == None:
+        elif tmp_group_id is None:
             tmp_hagID = None
         elif type(tmp_group_id) == str:
             tmp_hagID = tmp_group_id
@@ -162,10 +162,10 @@ def poke_rd(plugin_event, event_type):
     tmp_pcHash = OlivaDiceCore.pcCard.getPcHash(tmp_pc_id, tmp_pc_platform)
     skill_valueTable = OlivaDiceCore.pcCard.pcCardDataGetByPcName(tmp_pcHash, hagId=tmp_hagID)
     tmp_pcName = OlivaDiceCore.pcCard.pcCardDataGetSelectionKey(tmp_pcHash, hagId=tmp_hagID)
-    if tmp_pcName != None:
+    if tmp_pcName is not None:
         tmp_template_name = OlivaDiceCore.pcCard.pcCardDataGetTemplateKey(tmp_pcHash, tmp_pcName)
         tmp_template = OlivaDiceCore.pcCard.pcCardDataGetTemplateByKey(tmp_template_name)
-        if tmp_template != None:
+        if tmp_template is not None:
             if 'customDefault' in tmp_template:
                 tmp_template_customDefault = tmp_template['customDefault']
             if 'mainDice' in tmp_template:
@@ -184,7 +184,7 @@ def poke_rd(plugin_event, event_type):
         userConfigKey='groupMainDiceDRight',
         botHash=plugin_event.bot_info.hash,
     )
-    if rd_para_main_str != None:
+    if rd_para_main_str is not None:
         rd_para_str = rd_para_main_str
     tmp_template_customDefault = copy.deepcopy(tmp_template_customDefault)
     if type(rd_para_main_D_right) == int:
@@ -195,21 +195,21 @@ def poke_rd(plugin_event, event_type):
         tmp_template_customDefault['d']['rightD'] = rd_para_main_D_right
     rd = OlivaDiceCore.onedice.RD(rd_para_str, tmp_template_customDefault, valueTable=skill_valueTable)
     rd.roll()
-    if tmp_pcName == None:
+    if tmp_pcName is None:
         tmp_userHash = OlivaDiceCore.userConfig.getUserHash(userId=tmp_pc_id, userType='user', platform=tmp_pc_platform)
         tmp_userId = OlivaDiceCore.userConfig.getUserDataByKeyWithHash(
             userHash=tmp_userHash, userDataKey='userId', botHash=plugin_event.bot_info.hash
         )
-        if tmp_userId != None:
+        if tmp_userId is not None:
             tmp_pcName = OlivaDiceCore.userConfig.getUserConfigByKeyWithHash(
                 userHash=tmp_userHash, userConfigKey='userName', botHash=plugin_event.bot_info.hash
             )
     res = plugin_event.get_stranger_info(user_id=plugin_event.data.user_id)
-    if res != None:
-        if tmp_pcName == None:
+    if res is not None:
+        if tmp_pcName is None:
             tmp_pcName = res['data']['name']
         tmp_plName = res['data']['name']
-    if tmp_pcName != None:
+    if tmp_pcName is not None:
         dictTValue['tName'] = tmp_pcName
     dictTValue['tUserName'] = tmp_plName if tmp_plName else tmp_pc_id
     dictTValue['tRollResult'] = '%s=%s' % (rd_para_str, str(rd.resInt))
@@ -239,7 +239,7 @@ def unity_reply(plugin_event, Proc):
     tmp_at_str_sub = None
     tmp_id_str_sub = None
     if 'sub_self_id' in plugin_event.data.extend:
-        if plugin_event.data.extend['sub_self_id'] != None:
+        if plugin_event.data.extend['sub_self_id'] is not None:
             tmp_at_str_sub = OlivOS.messageAPI.PARA.at(plugin_event.data.extend['sub_self_id']).CQ()
             tmp_id_str_sub = str(plugin_event.data.extend['sub_self_id'])
     tmp_command_str_1 = '.'
@@ -287,7 +287,7 @@ def unity_reply(plugin_event, Proc):
     if flag_is_command:
         tmp_hagID = None
         if plugin_event.plugin_info['func_type'] == 'group_message':
-            if plugin_event.data.host_id != None:
+            if plugin_event.data.host_id is not None:
                 flag_is_from_host = True
             flag_is_from_group = True
         elif plugin_event.plugin_info['func_type'] == 'private_message':
@@ -369,7 +369,7 @@ def unity_reply(plugin_event, Proc):
             tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
             dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
             tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strJoyJrrp'], dictTValue)
-            if tmp_reply_str != None:
+            if tmp_reply_str is not None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
         elif isMatchWordStart(tmp_reast_str, 'zrrp', isCommand=True):
@@ -389,7 +389,7 @@ def unity_reply(plugin_event, Proc):
             tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
             dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
             tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strJoyZrrp'], dictTValue)
-            if tmp_reply_str != None:
+            if tmp_reply_str is not None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
         elif isMatchWordStart(tmp_reast_str, 'mrrp', isCommand=True):
@@ -409,7 +409,7 @@ def unity_reply(plugin_event, Proc):
             tmp_jrrp_int = int(int(hash_tmp.hexdigest(), 16) % 100) + 1
             dictTValue['tJrrpResult'] = str(tmp_jrrp_int)
             tmp_reply_str = OlivaDiceCore.msgCustomManager.formatReplySTR(dictStrCustom['strJoyMrrp'], dictTValue)
-            if tmp_reply_str != None:
+            if tmp_reply_str is not None:
                 replyMsg(plugin_event, tmp_reply_str)
             return
 
@@ -425,7 +425,7 @@ def add_chance_custom_msg_func(target_func):
             if 'vPluginEvent' in valDict['vValDict']:
                 plugin_event = valDict['vValDict']['vPluginEvent']
         flag_need = OlivaDiceCore.console.getConsoleSwitchByHash('joyEnableCCPK', bot_hash)
-        if flag_need == 1 and plugin_event != None:
+        if flag_need == 1 and plugin_event is not None:
             res = chance_custom_msg(plugin_event, data)
         else:
             res = target_func(data, valDict)
@@ -468,7 +468,7 @@ def chance_custom_msg(plugin_event: OlivOS.API.Event, data: str):
                 event_name = 'poke_private'
             else:
                 event_name = 'poke_group'
-        if event_name != None:
+        if event_name is not None:
             ChanceCustom.replyCore.getValDict(chance_valDict, plugin_event, OlivaDiceJoy.data.globalProc, event_name)
             chance_valDict['innerVal']['bot_hash'] = plugin_event.bot_info.hash
             chance_valDict['innerVal']['bot_hash_self'] = plugin_event.bot_info.hash
