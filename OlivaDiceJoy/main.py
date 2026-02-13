@@ -14,7 +14,7 @@ _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
 @Desc      :   None
 """
 
-import OlivOS
+import OlivOS  # NOQA: F401
 import OlivaDiceJoy
 import OlivaDiceCore
 

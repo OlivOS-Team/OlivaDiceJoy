@@ -14,12 +14,8 @@ _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
 @Desc      :   None
 """
 
-import OlivOS
 import OlivaDiceCore
 import OlivaDiceJoy
-
-import os
-import json
 
 
 def initMsgCustom(bot_info_dict):
