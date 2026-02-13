@@ -88,6 +88,7 @@ def poke_jrrp(plugin_event, type):
             tmp_pcName = res['data']['name']
         tmp_plName = res['data']['name']
     dictTValue['tUserName'] = tmp_plName if tmp_plName else tmp_pc_id
+    tmp_reply_str = ''
     if tmp_pcName is not None:
         dictTValue['tName'] = tmp_pcName
         hash_tmp = hashlib.new('md5')
@@ -145,7 +146,7 @@ def poke_rd(plugin_event, event_type):
             tmp_hagID = None
         elif tmp_group_id is None:
             tmp_hagID = None
-        elif type(tmp_group_id) == str:
+        elif type(tmp_group_id) is str:
             tmp_hagID = tmp_group_id
     dictTValue = OlivaDiceCore.msgCustom.dictTValue.copy()
     dictTValue['tName'] = '你'
@@ -187,8 +188,8 @@ def poke_rd(plugin_event, event_type):
     if rd_para_main_str is not None:
         rd_para_str = rd_para_main_str
     tmp_template_customDefault = copy.deepcopy(tmp_template_customDefault)
-    if type(rd_para_main_D_right) == int:
-        if type(tmp_template_customDefault) != dict:
+    if type(rd_para_main_D_right) is int:
+        if type(tmp_template_customDefault) is dict:
             tmp_template_customDefault = {}
             if 'd' not in tmp_template_customDefault:
                 tmp_template_customDefault['d'] = {}
@@ -234,17 +235,17 @@ def unity_reply(plugin_event, Proc):
     skipToRight = OlivaDiceCore.msgReply.skipToRight
     msgIsCommand = OlivaDiceCore.msgReply.msgIsCommand
 
-    tmp_at_str = OlivOS.messageAPI.PARA.at(plugin_event.base_info['self_id']).CQ()
+    tmp_at_str = OlivOS.messageAPI.PARA.at(plugin_event.base_info['self_id']).CQ()  # NOQA: F841
     tmp_id_str = str(plugin_event.base_info['self_id'])
     tmp_at_str_sub = None
     tmp_id_str_sub = None
     if 'sub_self_id' in plugin_event.data.extend:
         if plugin_event.data.extend['sub_self_id'] is not None:
-            tmp_at_str_sub = OlivOS.messageAPI.PARA.at(plugin_event.data.extend['sub_self_id']).CQ()
+            tmp_at_str_sub = OlivOS.messageAPI.PARA.at(plugin_event.data.extend['sub_self_id']).CQ()  # NOQA: F841
             tmp_id_str_sub = str(plugin_event.data.extend['sub_self_id'])
-    tmp_command_str_1 = '.'
-    tmp_command_str_2 = '。'
-    tmp_command_str_3 = '/'
+    tmp_command_str_1 = '.'  # NOQA: F841
+    tmp_command_str_2 = '。'  # NOQA: F841
+    tmp_command_str_3 = '/'  # NOQA: F841
     tmp_reast_str = plugin_event.data.message
     flag_force_reply = False
     flag_is_command = False
@@ -253,7 +254,7 @@ def unity_reply(plugin_event, Proc):
     flag_is_from_group_admin = False
     flag_is_from_group_sub_admin = False
     flag_is_from_group_have_admin = False
-    flag_is_from_master = False
+    flag_is_from_master = False  # NOQA: F841
     if isMatchWordStart(tmp_reast_str, '[CQ:reply,id='):
         tmp_reast_str = skipToRight(tmp_reast_str, ']')
         tmp_reast_str = tmp_reast_str[1:]
@@ -294,12 +295,12 @@ def unity_reply(plugin_event, Proc):
             flag_is_from_group = False
         if flag_is_from_group:
             if 'role' in plugin_event.data.sender:
-                flag_is_from_group_have_admin = True
+                flag_is_from_group_have_admin = True  # NOQA: F841
                 if plugin_event.data.sender['role'] in ['owner', 'admin']:
                     flag_is_from_group_admin = True
                 elif plugin_event.data.sender['role'] in ['sub_admin']:
-                    flag_is_from_group_admin = True
-                    flag_is_from_group_sub_admin = True
+                    flag_is_from_group_admin = True  # NOQA: F841
+                    flag_is_from_group_sub_admin = True  # NOQA: F841
         if flag_is_from_host and flag_is_from_group:
             tmp_hagID = '%s|%s' % (str(plugin_event.data.host_id), str(plugin_event.data.group_id))
         elif flag_is_from_group:
@@ -437,7 +438,7 @@ def add_chance_custom_msg_func(target_func):
 def add_chance_custom_to_deck_func(target_func):
     @wraps(target_func)
     def msg_func(data: str, plugin_event: OlivOS.API.Event):
-        bot_hash = plugin_event.bot_info.hash
+        bot_hash = plugin_event.bot_info.hash  # NOQA: F841
         res = data
         for key_this in ['【程心】', '【铃心】', '【EPK】', '【CCPK】']:
             if res.startswith('%s::' % key_this) or res.startswith('::%s::' % key_this):
@@ -459,11 +460,11 @@ def chance_custom_msg(plugin_event: OlivOS.API.Event, data: str):
 
         chance_valDict = {}
         event_name = None
-        if type(plugin_event.data) == OlivOS.API.Event.group_message:
+        if type(plugin_event.data) is OlivOS.API.Event.group_message:
             event_name = 'group_message'
-        elif type(plugin_event.data) == OlivOS.API.Event.private_message:
+        elif type(plugin_event.data) is OlivOS.API.Event.private_message:
             event_name = 'private_message'
-        elif type(plugin_event.data) == OlivOS.API.Event.poke:
+        elif type(plugin_event.data) is OlivOS.API.Event.poke:
             if plugin_event.data.group_id in [-1, None]:
                 event_name = 'poke_private'
             else:
@@ -477,7 +478,7 @@ def chance_custom_msg(plugin_event: OlivOS.API.Event, data: str):
                 msg_1 = msg_1.replace('\r\n', '\n')
                 msg_1 = msg_1.replace('\n', '【换行】')
                 msg = ChanceCustom.replyReg.replyValueRegTotal(msg_1, chance_valDict)
-            except:
+            except Exception:
                 msg = data
                 OlivaDiceJoy.data.globalProc.log(
                     3, traceback.format_exc(), [('OlivaDice', 'default'), ('joyCCPK', 'default')]
