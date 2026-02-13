@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
-'''
+"""
 _______________________    _________________________________________
 __  __ \__  /____  _/_ |  / /__    |__  __ \___  _/_  ____/__  ____/
-_  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/   
-/ /_/ /_  /____/ /  __ |/ / _  ___ |  /_/ /__/ /  / /___  _  /___   
-\____/ /_____/___/  _____/  /_/  |_/_____/ /___/  \____/  /_____/   
+_  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
+/ /_/ /_  /____/ /  __ |/ / _  ___ |  /_/ /__/ /  / /___  _  /___
+\____/ /_____/___/  _____/  /_/  |_/_____/ /___/  \____/  /_____/
 
 @File      :   msgCustom.py
 @Author    :   lunzhiPenxil仑质
@@ -12,17 +12,17 @@ _  / / /_  /  __  / __ | / /__  /| |_  / / /__  / _  /    __  __/
 @License   :   AGPL
 @Copyright :   (C) 2020-2021, OlivOS-Team
 @Desc      :   None
-'''
+"""
 
 import OlivOS
 import OlivaDiceCore
 import OlivaDiceJoy
 
 dictConsoleSwitchTemplate = {
-    'default' : {
+    'default': {
         'joyPokeMode': 0,
         'joyEnableCCPK': 0,
-        'differentJrrpMode' : 0,
+        'differentJrrpMode': 0,
     }
 }
 
@@ -32,32 +32,26 @@ dictStrCustom = {
     'strJoyJrrp': '[{tUserName}]的今日人品为[{tJrrpResult}]',
     'strJoyZrrp': '[{tUserName}]的昨日人品为[{tJrrpResult}]',
     'strJoyMrrp': '[{tUserName}]的明日人品为[{tJrrpResult}]',
-    'strJoyPokeCustom': '[{tUserName}]你好，这里是青果核心OlivaDice。'
+    'strJoyPokeCustom': '[{tUserName}]你好，这里是青果核心OlivaDice。',
 }
 
-dictStrConst = {
-}
+dictStrConst = {}
 
-dictGValue = {
-}
+dictGValue = {}
 
-dictTValue = {
-    'tJrrpResult': 'N/A'
-}
+dictTValue = {'tJrrpResult': 'N/A'}
 
 dictHelpDocTemp = {
-    'jrrp': '''每日人品
+    'jrrp': """每日人品
 .jrrp 今日人品
 .zrrp 昨日人品
 .mrrp 明日人品
-此功能采用源自《梅花易数》的卜算方法，以日期与八字起卦进行推演，结果仅供参考。''',
-
-    'OlivaDiceJoy': '''[OlivaDiceJoy]
+此功能采用源自《梅花易数》的卜算方法，以日期与八字起卦进行推演，结果仅供参考。""",
+    'OlivaDiceJoy': """[OlivaDiceJoy]
 OlivaDice娱乐模块
 本模块为青果跑团掷骰机器人(OlivaDice)娱乐模块，集成与跑团无关的历史遗留娱乐功能（如今日人品等）。
 核心开发者: lunzhiPenxil仑质
-注: 本模块为可选不重要模块。''',
-
+注: 本模块为可选不重要模块。""",
     'zrrp': '&jrrp',
     'mrrp': '&jrrp',
     '今日人品': '&jrrp',
